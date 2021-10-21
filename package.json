@@ -4,7 +4,8 @@
   "description": "vefforritun 1 - verkefni 7 (JS)",
   "main": "index.js",
   "scripts": {
-    "dev": "browser-sync start --server --files scripts.js index.html"
+    "dev": "browser-sync start --server --files scripts.js index.html",
+    "build": "npm run build"
   },
   "repository": {
     "type": "git",
