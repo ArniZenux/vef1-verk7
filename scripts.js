@@ -134,8 +134,11 @@ function games() {
     if (wins < losses){
       console.log("Þú er ekki sigurvegari");
     }
-    else {
+    else if( wins > losses){
       console.log("Þú ert sigurvegari");
+    }
+    else if (wins == losses){
+      console.log("Jafntefli !!!");
     }
   }
 }
