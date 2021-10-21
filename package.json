@@ -1,0 +1,22 @@
+{
+  "name": "vef1-verk7",
+  "version": "1.0.0",
+  "description": "vefforritun 1 - verkefni 7 (JS)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "browser-sync start --server --files scripts.js index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArniZenux/vef1-verk7.git"
+  },
+  "author": "Arni Ingi Johannesson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArniZenux/vef1-verk7/issues"
+  },
+  "homepage": "https://github.com/ArniZenux/vef1-verk7#readme",
+  "dependencies": {
+    "browser-sync": "^2.27.5"
+  }
+}
