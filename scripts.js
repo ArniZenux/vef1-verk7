@@ -1,11 +1,35 @@
-
 const MAX_BEST_OF = 10;
 
 /* Global */
+//stig
 let wins = 0;
 let losses = 0;
+
+//choice 
 let player_ = 0; 
 let computer = 0; 
+let jafnara = 0; 
+
+//fjöldi leikja
+let max_games = 0; 
+
+//
+// núllastilla ef þarf að spila aftur. 
+//
+function nullstilla(){
+  max_win = 0; 
+  max_los = 0; 
+  jafnara_max = 0; 
+  
+  wins = 0; 
+  losses = 0; 
+  
+  player_ = 0;
+  computer = 0;
+  jafnara = 0; 
+
+  max_games = 0; 
+}
 
 /**
  * Athugar hvort gefin tala sé gild sem best-of gildi.
@@ -13,12 +37,39 @@ let computer = 0;
  * @return {boolean} true eða false
  */
 function isValidBestOf(bestOf) {
-  // TODO útfæra
+  if(bestOf == 1){
+    if(wins == 1){
+      return true;
+    }
+  }
+  else if(bestOf == 3){
+    if(wins == 2){
+      return true;
+    }
+  }
+  else if(bestOf == 5){
+    if(wins == 3){
+      return true;
+    }
+  }
+  else if(bestOf == 7){
+    if(wins == 5){
+      return true;
+    }
+  }
+  else if(bestOf == 9){
+    if(wins == 5){
+      return true;
+    }
+  }
+  else{
+    return false;
+  } 
 }
-// console.assert(isValidBestOf(1) === true, '1 er valid best of');
-// console.assert(isValidBestOf(2) === false, '2 er ekki er valid best of');
-// console.assert(isValidBestOf(9) === true, '9 er valid best of');
 
+//
+// merki 1, 2 og 3 
+//
 function playAsText(text) {
     if(text == 1){
       return "Skæri";
@@ -31,28 +82,29 @@ function playAsText(text) {
     }
 }
 
-/**
- * Athugar hvort spilari eða tölva vinnur.
- * @param {number} player Það sem spilari spilaði
- * @param {number} computer Það sem tölva spilaði
- * @returns -1 ef tölva vann, 0 ef jafntefli, 1 ef spilari vann
- */
+//
+//Check stöðu spilara og tölvu
+//Þetta er aðeins meira skemmtilegra - krydd og breyta aðeins til. 
+//
 function checkGame(player, computer) {
   // player wins!
   // skæri vinnur blað
   if(player_ == 1 && computer == 2){
      wins++;
      console.log('Player wins! : Skæri vinnur blað');
+     console.log(" ");
   }
   // blað vinnur stein
   else if(player_ == 2 && computer == 3){
     wins++;
     console.log('Player wins! : Blað vinnur stein');
+    console.log(" ");
   } 
   // steinn vinnur skæri
   else if(player_ == 3 && computer == 1){
     wins++;
     console.log('Player wins! : Steinn vinnur stein');
+    console.log(" ");
   }
   
   // computer wins!
@@ -60,36 +112,42 @@ function checkGame(player, computer) {
   else if(computer == 1 && player_ == 2){
     losses++;
     console.log('Computer wins! : Skæri vinnur blað');
+    console.log(" ");
   }  
    // blað vinnur stein
   else if(computer == 2 && player_ == 3){
     losses++;
     console.log('Computer wins! : Blað vinnur stein');
+    console.log(" ");
   }
   // steinn vinnur skæri
   else if(computer == 3 && player_ == 1){
     losses++;
     console.log('Computer wins! : Steinn vinnur blað');
+    console.log(" ");
   }
   else {
+    jafnara++; 
     console.log("Jafntefli");
+    console.log(" ");
   }
 }
 
-/**
- * Spilar einn leik.
- * @return {boolean} -1 ef tölva vann, 0 ef jafntefli, 1 ef spilari vann
- */
 function round() {
+
+  // 1. Spyrja um hvað spilað, ef cancel, hætta
   player_ = prompt("Veldu 1,2 ed 3: ");
 
   if( 0 < player_ && player_ < 4 ){
-  
+
+    // 3. Velja gildi fyrir tölvu með `Math.floor(Math.random() * 3) + 1` sem skilar heiltölu á [1, 3]
     computer = Math.floor(Math.random() * 3) + 1;
-    console.log("Player: ", playAsText(player_));
-    console.log("Computer: ", playAsText(computer));
+    console.log("Player choice : ", playAsText(player_));
+    console.log("Computer choice : ", playAsText(computer));
+    
+    // Smá breyta og krydd aðeins hérna. 
     checkGame(player_, computer);
-  
+    
   }
   else{
     console.error("ógilt");
@@ -98,47 +156,84 @@ function round() {
   player_ = 0; 
 }
 
-function play() {
-  var i = 0; 
-
-  max_games = prompt("Round of games? : ");
-
-  if( 0 < max_games && max_games <= 10){
-
-      while( max_games > i ){
-        round();
-        i++; 
-       }
-
-    games();
-  } 
-  else{
-    console.error("ógilt");
+//
+//Ahuga hvort valin númer sé oddutala eða ekki. 
+//
+function checkOddtala(numer){
+  if( max_games == 2 || max_games == 4 || max_games == 6 || max_games == 8 || max_games == 10){
+    return false;
   }
+  return true;
 }
 
+//
+// Spilar leik og bætir útkomu. 
+//
+function play() {
+  
+  nullstilla(); // Finnst best að nota þetta ef þarf að endurspila. 
+
+  var i = 0; 
+  //1. spyrja um fjölda leikja
+  max_games = prompt("Round of games? : ");
+  bestOf = max_games;   
+  //2. Staðfesta að fjöldi leikja sé gilt gildi. (1 til 10)
+  if(max_games > 0 && max_games < MAX_BEST_OF){
+    if( checkOddtala(max_games) ){
+      //3. keyra fjölda leikja og spila umferð þar til winner is found!
+      while( max_games > i && !isValidBestOf(bestOf) ){
+        round();
+        i++; 
+      }
+      //4. Birta hvort spilari eða tölva vann
+      games();
+    } 
+    else{
+      console.error("Velja 1,3,5,7,9 sem oddutölu");
+    }  
+  }
+  else{
+    console.error("Undir en 0 eða yfir en 10 er ógilt");
+  }    
+}
+
+//
+// Birtir stöðu spilara.
+//
 function games() {
  
   let max_win = (100 * (wins/max_games)).toFixed(2);  
   let max_los = (100 * (losses/max_games)).toFixed(2);; 
+  let jafnara_max = (100 * (jafnara/max_games)).toFixed(2);
 
   if(max_games == 0){
     console.log("Þú hefur spilað ", max_games, " leiki");
   }
 
   else{
-    console.log("Þú hefur spilað ", max_games, " leiki");
-    console.log("Þú hefur unnið ", wins, " eða ", max_win, "% af heild");
-    console.log("Þú hefur tapað ", losses, " eða ", max_los, "% af heild");
-
+    console.log("------------------------------------------------")
+    console.log("| Þú hefur spilað ", max_games, " leiki");
+    console.log("| Þú hefur unnið ", wins, " eða ", max_win, "% af heild");
+    console.log("| Þú hefur tapað ", losses, " eða ", max_los, "% af heild");
+    console.log("| Jafntefli ", jafnara, " eða ", jafnara_max, "% af heild");
+    console.log("------------------------------------------------")
     if (wins < losses){
-      console.log("Þú er ekki sigurvegari");
+      console.log("----------------------------");
+      console.log("|| Þú er ekki sigurvegari ||");
+      console.log("----------------------------");
+
     }
     else if( wins > losses){
-      console.log("Þú ert sigurvegari");
+      console.log("-----------------------");
+      console.log("|| Þú er sigurvegari ||");
+      console.log("-----------------------");
     }
     else if (wins == losses){
-      console.log("Jafntefli !!!");
+      console.log("------------------");
+      console.log("|| Jafntefli !! ||");
+      console.log("------------------");
     }
   }
+
+ 
 }
