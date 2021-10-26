@@ -31,11 +31,9 @@ function nullstilla(){
   max_games = 0; 
 }
 
-/**
- * Athugar hvort gefin tala sé gild sem best-of gildi.
- * @param {number} bestOf Tala sem skal athuga
- * @return {boolean} true eða false
- */
+//
+//Athugar hvort gefin tala sé gild sem best-of gildi.
+//
 function isValidBestOf(bestOf) {
   if(bestOf == 1){
     if(wins == 1){
@@ -68,7 +66,7 @@ function isValidBestOf(bestOf) {
 }
 
 //
-// merki 1, 2 og 3 
+// merki:  1, 2 og 3 
 //
 function playAsText(text) {
     if(text == 1){
@@ -83,9 +81,11 @@ function playAsText(text) {
 }
 
 //
+//Birta skal hvað bæði spilari og tölvu valdi og hvernig umferð fór.
+//
 //Check stöðu spilara og tölvu
 //Þetta er aðeins meira skemmtilegra - krydd og breyta aðeins til. 
-//
+
 function checkGame(player, computer) {
   // player wins!
   // skæri vinnur blað
@@ -133,6 +133,9 @@ function checkGame(player, computer) {
   }
 }
 
+//
+// aðal spilaumferð - Main game. 
+//
 function round() {
 
   // 1. Spyrja um hvað spilað, ef cancel, hætta
@@ -151,6 +154,7 @@ function round() {
   }
   else{
     console.error("ógilt");
+    losses++; // Ef ógilt gildi er slegið inn vinnur tölva. (utan 1,2 eða 3)
   }
 
   player_ = 0; 
@@ -167,25 +171,28 @@ function checkOddtala(numer){
 }
 
 //
-// Spilar leik og bætir útkomu. 
+// Hefst leik og bætir útkomu. 
 //
 function play() {
   
   nullstilla(); // Finnst best að nota þetta ef þarf að endurspila. 
 
-  var i = 0; 
+  var i = 0;  //teljari teljar upp að max_games.  
+
   //1. spyrja um fjölda leikja
   max_games = prompt("Round of games? : ");
-  bestOf = max_games;   
+  
+  let _bestOf = max_games;   
+
   //2. Staðfesta að fjöldi leikja sé gilt gildi. (1 til 10)
   if(max_games > 0 && max_games < MAX_BEST_OF){
     if( checkOddtala(max_games) ){
       //3. keyra fjölda leikja og spila umferð þar til winner is found!
-      while( max_games > i && !isValidBestOf(bestOf) ){
+      while( max_games > i && !isValidBestOf(_bestOf) ){
         round();
         i++; 
       }
-      //4. Birta hvort spilari eða tölva vann
+      //4. Birta stöðu. 
       games();
     } 
     else{
@@ -234,6 +241,4 @@ function games() {
       console.log("------------------");
     }
   }
-
- 
 }
