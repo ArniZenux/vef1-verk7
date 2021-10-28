@@ -4,7 +4,7 @@ const MAX_BEST_OF = 10;
 //stig
 let wins = 0;
 let losses = 0;
-
+let round_of_game = 0; 
 let best_Of_winner = false; 
 
 //choice 
@@ -201,11 +201,13 @@ function play() {
       while( max_games > i && !isValidBestOf(_bestOf) ){
         round(i);
         i++; 
-        if(best_Of_winner){
+        /*if(best_Of_winner){
           max_games = i; 
-        }
+          console.log("fusadf");
+        }*/
       }
-      //4. Birta stöðu. 
+      //4. Birta stöðu
+      round_of_game = i; 
       games();
     } 
     else{
@@ -232,7 +234,7 @@ function games() {
 
   else if(best_Of_winner){
     console.log("------------- BEST OF GAME - SNILLD!------------------")
-    console.log("| Þú hefur spilað ", max_games, " leiki");
+    console.log("| Þú hefur spilað", round_of_game ," af ", max_games, " leiki");
     console.log("| Þú hefur unnið ", wins, " eða ", max_win, "% af heild");
     console.log("| Þú hefur tapað ", losses, " eða ", max_los, "% af heild");
     console.log("| Jafntefli ", jafnara, " eða ", jafnara_max, "% af heild");
