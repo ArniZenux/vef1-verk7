@@ -5,6 +5,8 @@ const MAX_BEST_OF = 10;
 let wins = 0;
 let losses = 0;
 
+let best_Of_winner = false; 
+
 //choice 
 let player_ = 0; 
 let computer = 0; 
@@ -29,6 +31,7 @@ function nullstilla(){
   jafnara = 0; 
 
   max_games = 0; 
+  best_Of_winner = false; 
 }
 
 //
@@ -37,26 +40,31 @@ function nullstilla(){
 function isValidBestOf(bestOf) {
   if(bestOf == 1){
     if(wins == 1){
+      best_Of_winner = true; 
       return true;
     }
   }
   else if(bestOf == 3){
     if(wins == 2){
+      best_Of_winner = true; 
       return true;
     }
   }
   else if(bestOf == 5){
     if(wins == 3){
+      best_Of_winner = true; 
       return true;
     }
   }
   else if(bestOf == 7){
     if(wins == 5){
+      best_Of_winner = true; 
       return true;
     }
   }
   else if(bestOf == 9){
     if(wins == 5){
+      best_Of_winner = true; 
       return true;
     }
   }
@@ -136,7 +144,7 @@ function checkGame(player, computer) {
 //
 // aðal spilaumferð - Main game. 
 //
-function round() {
+function round(i) {
 
   // 1. Spyrja um hvað spilað, ef cancel, hætta
   player_ = prompt("Veldu 1,2 ed 3: ");
@@ -145,6 +153,7 @@ function round() {
 
     // 3. Velja gildi fyrir tölvu með `Math.floor(Math.random() * 3) + 1` sem skilar heiltölu á [1, 3]
     computer = Math.floor(Math.random() * 3) + 1;
+    console.log("Umferð leiks : ", i+1);
     console.log("Player choice : ", playAsText(player_));
     console.log("Computer choice : ", playAsText(computer));
     
@@ -153,7 +162,8 @@ function round() {
     
   }
   else{
-    console.error("ógilt");
+    console.log("Umferð leiks : ", i+1);
+    console.error("ógilt og computer wins!");
     losses++; // Ef ógilt gildi er slegið inn vinnur tölva. (utan 1,2 eða 3)
   }
 
@@ -189,8 +199,11 @@ function play() {
     if( checkOddtala(max_games) ){
       //3. keyra fjölda leikja og spila umferð þar til winner is found!
       while( max_games > i && !isValidBestOf(_bestOf) ){
-        round();
+        round(i);
         i++; 
+        if(best_Of_winner){
+          max_games = i; 
+        }
       }
       //4. Birta stöðu. 
       games();
@@ -217,6 +230,18 @@ function games() {
     console.log("Þú hefur spilað ", max_games, " leiki");
   }
 
+  else if(best_Of_winner){
+    console.log("------------- BEST OF GAME - SNILLD!------------------")
+    console.log("| Þú hefur spilað ", max_games, " leiki");
+    console.log("| Þú hefur unnið ", wins, " eða ", max_win, "% af heild");
+    console.log("| Þú hefur tapað ", losses, " eða ", max_los, "% af heild");
+    console.log("| Jafntefli ", jafnara, " eða ", jafnara_max, "% af heild");
+    console.log("------------------------------------------------")
+    console.log("-----------------------");
+    console.log("|| Þú er sigurvegari ||");
+    console.log("-----------------------");
+    
+  }
   else{
     console.log("------------------------------------------------")
     console.log("| Þú hefur spilað ", max_games, " leiki");
