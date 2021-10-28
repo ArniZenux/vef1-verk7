@@ -201,10 +201,6 @@ function play() {
       while( max_games > i && !isValidBestOf(_bestOf) ){
         round(i);
         i++; 
-        /*if(best_Of_winner){
-          max_games = i; 
-          console.log("fusadf");
-        }*/
       }
       //4. Birta stöðu
       round_of_game = i; 
